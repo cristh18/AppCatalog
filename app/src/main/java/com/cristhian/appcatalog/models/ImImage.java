@@ -1,0 +1,36 @@
+package com.cristhian.appcatalog.models;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * Created by Cristhian on 2/1/2016.
+ */
+public class ImImage {
+
+    @Expose
+    @SerializedName("label")
+    String label;
+
+    @Expose
+    @SerializedName("attributes")
+    Attribute attributes;
+
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+
+    public Attribute getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Attribute attributes) {
+        this.attributes = attributes;
+    }
+}
