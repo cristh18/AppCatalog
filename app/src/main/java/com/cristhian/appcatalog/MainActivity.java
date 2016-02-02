@@ -8,21 +8,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.cristhian.appcatalog.fragments.HomeFragment;
+import com.cristhian.appcatalog.fragments.PagerFragment;
 import com.cristhian.appcatalog.network.CatalogTask;
 
 public class MainActivity extends AppCompatActivity {
 
     private AlertDialog.Builder dialog;
+    private PagerFragment my_main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_main, new HomeFragment());
-        fragmentTransaction.commit();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.content_main, new HomeFragment());
+//        fragmentTransaction.commit();
+
+        my_main = new PagerFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.content_main, my_main)
+                .commit();
 
         showExitDialog();
     }
