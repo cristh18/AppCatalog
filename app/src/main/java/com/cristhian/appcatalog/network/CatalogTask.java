@@ -12,6 +12,7 @@ import com.cristhian.appcatalog.models.Catalog;
 import com.cristhian.appcatalog.models.Entry;
 import com.cristhian.appcatalog.models.Feed;
 import com.cristhian.appcatalog.repository.AppRegistration;
+import com.cristhian.appcatalog.repository.ImageRegistration;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class CatalogTask extends AsyncTask<String, Void, Catalog> {
     private ICatalogResponse iCatalogResponse;
 
     AppRegistration appRegistration = AppRegistration.getAppRegistrationInstance();
+    ImageRegistration imageRegistration = ImageRegistration.getImageRegistrationInstance();
 
     Context context;
 
@@ -78,6 +80,7 @@ public class CatalogTask extends AsyncTask<String, Void, Catalog> {
         try {
             for (Entry app:apps) {
                 appRegistration.createApp(context, app);
+                imageRegistration.createImage(context, app);
             }
             catalogSaved = true;
         }catch (Exception e){

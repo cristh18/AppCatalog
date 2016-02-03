@@ -26,20 +26,23 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
     public static AppAdapter appAdapter;
     public static final int APPS_LOADER = 0;
     public static int count = 0;
 
 
-    private String[] fragmentdate = new String[1];
+    private String[] fragmentCategory = new String[1];
     private int last_selected_item = -1;
 
     public MainScreenFragment() {
     }
 
+    public void setFragmentCategory(String category) {
+        fragmentCategory[0] = category;
+    }
 
-
-//    public void setFragmentDate(String date) {
+    //    public void setFragmentDate(String date) {
 //        fragmentdate[0] = date;
 //    }
 
@@ -51,7 +54,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         final RecyclerView app_list = (RecyclerView) rootView.findViewById(R.id.app_list);
         appAdapter = new AppAdapter(getActivity(), null);
         app_list.setAdapter(appAdapter);
-        getLoaderManager().initLoader(APPS_LOADER, null, this);
+        //getLoaderManager().initLoader(APPS_LOADER, null, this);
 
 
 //        getLoaderManager().initLoader(SCORES_LOADER, null, this);
@@ -71,7 +74,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(getActivity(), AppEntity.buildAppWithId(),
-                null, null, fragmentdate, null);
+                null, null, fragmentCategory, null);
     }
 
     @Override

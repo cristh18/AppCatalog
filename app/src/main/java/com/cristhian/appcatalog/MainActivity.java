@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse{
     @Override
     public void responseCatalog(Boolean response) {
         if (response){
-            //goToMainScreen();
+            goToMainScreen();
             Toast.makeText(this, "Everything is OK", Toast.LENGTH_LONG);
         }else {
             Toast.makeText(this, "Something is wrong", Toast.LENGTH_LONG);

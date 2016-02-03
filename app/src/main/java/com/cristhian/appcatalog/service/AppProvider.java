@@ -25,6 +25,7 @@ public class AppProvider extends ContentProvider {
     static final int CATEGORY = 100;
     static final int APP = 200;
     static final int IMAGE = 300;
+    static final int APP_BY_ID = 400;
 
     @Override
     public boolean onCreate() {
@@ -40,6 +41,7 @@ public class AppProvider extends ContentProvider {
         matcher.addURI(authority, DatabaseContract.PATH_CATEGORY, CATEGORY);
         matcher.addURI(authority, DatabaseContract.PATH_APP, APP);
         matcher.addURI(authority, DatabaseContract.PATH_IMAGE, IMAGE);
+        matcher.addURI(authority, DatabaseContract.PATH_APP + "/*", APP_BY_ID);
 
         return matcher;
     }
@@ -64,6 +66,10 @@ public class AppProvider extends ContentProvider {
                 break;
             }
 
+            case APP_BY_ID: {
+                retCursor = getAppById(uri, projection, selection, selectionArgs, sortOrder);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -83,6 +89,9 @@ public class AppProvider extends ContentProvider {
                 return AppEntity.CONTENT_TYPE;
             case IMAGE:
                 return ImageEntity.CONTENT_TYPE;
+
+            case APP_BY_ID:
+                return AppEntity.CONTENT_ITEM_TYPE;
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -180,5 +189,11 @@ public class AppProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
+    }
+
+    /*----------*/
+    Cursor getAppById(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder){
+        Cursor cursor = null;
+        return cursor;
     }
 }
