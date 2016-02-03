@@ -1,16 +1,14 @@
 package com.cristhian.appcatalog;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.cristhian.appcatalog.fragments.HomeFragment;
 import com.cristhian.appcatalog.fragments.PagerFragment;
 import com.cristhian.appcatalog.interfaces.ICatalogResponse;
+import com.cristhian.appcatalog.service.AppProvider;
 import com.cristhian.appcatalog.network.CatalogTask;
 
 public class MainActivity extends AppCompatActivity implements ICatalogResponse{
@@ -21,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse{
     private PagerFragment pagerFragment;
     public static int current_fragment = 2;
 
+    AppProvider appProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse{
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //        fragmentTransaction.replace(R.id.content_main, new HomeFragment());
 //        fragmentTransaction.commit();
-
+        appProvider = new AppProvider();
         String url = getString(R.string.base_url);
         getCatalog(url);
 

@@ -65,6 +65,6 @@ public class AppRegistration {
         values.put(AppEntity.RELEASE_DATE, entry.getImReleaseDate().getLabel());
 
         Uri uri = context.getContentResolver().insert(
-                CategoryEntity.CONTENT_URI, values);
+                AppEntity.CONTENT_URI, values);
     }
 }

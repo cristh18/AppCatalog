@@ -1,4 +1,4 @@
-package com.cristhian.appcatalog.managers;
+package com.cristhian.appcatalog.service;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -12,6 +12,7 @@ import com.cristhian.appcatalog.entities.AppEntity;
 import com.cristhian.appcatalog.entities.CategoryEntity;
 import com.cristhian.appcatalog.entities.ImageEntity;
 import com.cristhian.appcatalog.helpers.AppsDBHelper;
+import com.cristhian.appcatalog.managers.DatabaseContract;
 
 /**
  * Created by ctolosa on 02/02/2016.
