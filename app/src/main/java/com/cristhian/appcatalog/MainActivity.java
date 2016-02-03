@@ -4,14 +4,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cristhian.appcatalog.fragments.PagerFragment;
 import com.cristhian.appcatalog.interfaces.ICatalogResponse;
+import com.cristhian.appcatalog.repository.AppRepository;
+import com.cristhian.appcatalog.repository.CategoryRepository;
+import com.cristhian.appcatalog.repository.ImageRepository;
 import com.cristhian.appcatalog.service.AppProvider;
 import com.cristhian.appcatalog.network.CatalogTask;
+import com.cristhian.appcatalog.utils.Utilies;
 
-public class MainActivity extends AppCompatActivity implements ICatalogResponse{
+public class MainActivity extends AppCompatActivity implements ICatalogResponse {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -31,13 +36,22 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse{
 //        fragmentTransaction.replace(R.id.content_main, new HomeFragment());
 //        fragmentTransaction.commit();
         appProvider = new AppProvider();
-        String url = getString(R.string.base_url);
-        getCatalog(url);
+
+        if (Utilies.validateCatalog(this)){
+            Log.e(LOG_TAG, "Catalog exist!!!!!!!");
+            goToMainScreen();
+        }else {
+            String url = getString(R.string.base_url);
+            getCatalog(url);
+        }
 
         showExitDialog();
     }
 
-    private void goToMainScreen(){
+    /**
+     *
+     */
+    private void goToMainScreen() {
         pagerFragment = new PagerFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content_main, pagerFragment)
@@ -45,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse{
     }
 
     /**
-     *
      * @param url
      */
     private void getCatalog(String url) {
@@ -76,10 +89,10 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse{
 
     @Override
     public void responseCatalog(Boolean response) {
-        if (response){
+        if (response) {
             goToMainScreen();
             Toast.makeText(this, "Everything is OK", Toast.LENGTH_LONG);
-        }else {
+        } else {
             Toast.makeText(this, "Something is wrong", Toast.LENGTH_LONG);
         }
     }

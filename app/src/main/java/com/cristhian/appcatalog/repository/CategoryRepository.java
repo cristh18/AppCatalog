@@ -48,4 +48,27 @@ public class CategoryRepository {
 
         return categoryId;
     }
+
+    /**
+     *
+     * @param context
+     * @return
+     */
+    public Long getCountCategories(Context context){
+        Long count=null;
+        AppsDBHelper appsDBHelper = new AppsDBHelper(context);
+        SQLiteDatabase db = appsDBHelper.getReadableDatabase();
+
+        String query = "SELECT count(c._id) FROM " + CategoryEntity.TABLE_NAME + " c";
+
+        Cursor cursor = db.rawQuery(query, new String[]{});
+
+        if (cursor.moveToFirst()) {
+            do {
+                count = cursor.getLong(0);
+            } while (cursor.moveToNext());
+        }
+
+        return count;
+    }
 }
