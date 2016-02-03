@@ -24,8 +24,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        String url = getString(R.string.base_url);
-        getAppsCatalog(url);
+        //String url = getString(R.string.base_url);
+        //getAppsCatalog(url);
         return view;
     }
 
@@ -34,8 +34,8 @@ public class HomeFragment extends Fragment {
     /**
      *
      */
-    private void getAppsCatalog(String url){
-        CatalogTask catalogTask = new CatalogTask();
-        catalogTask.execute(url);
-    }
+//    private void getAppsCatalog(String url){
+//        CatalogTask catalogTask = new CatalogTask();
+//        catalogTask.execute(url);
+//    }
 }

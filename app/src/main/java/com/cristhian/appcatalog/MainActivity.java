@@ -6,15 +6,20 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.cristhian.appcatalog.fragments.HomeFragment;
 import com.cristhian.appcatalog.fragments.PagerFragment;
+import com.cristhian.appcatalog.interfaces.ICatalogResponse;
 import com.cristhian.appcatalog.network.CatalogTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ICatalogResponse{
+
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private AlertDialog.Builder dialog;
-    private PagerFragment my_main;
+    private PagerFragment pagerFragment;
+    public static int current_fragment = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +31,28 @@ public class MainActivity extends AppCompatActivity {
 //        fragmentTransaction.replace(R.id.content_main, new HomeFragment());
 //        fragmentTransaction.commit();
 
-        my_main = new PagerFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.content_main, my_main)
-                .commit();
+        String url = getString(R.string.base_url);
+        getCatalog(url);
 
         showExitDialog();
     }
+
+    private void goToMainScreen(){
+        pagerFragment = new PagerFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.content_main, pagerFragment)
+                .commit();
+    }
+
+    /**
+     *
+     * @param url
+     */
+    private void getCatalog(String url) {
+        CatalogTask catalogTask = new CatalogTask(this, this);
+        catalogTask.execute(url);
+    }
+
 
     /**
      *
@@ -54,4 +74,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void responseCatalog(Boolean response) {
+        if (response){
+            //goToMainScreen();
+            Toast.makeText(this, "Everything is OK", Toast.LENGTH_LONG);
+        }else {
+            Toast.makeText(this, "Something is wrong", Toast.LENGTH_LONG);
+        }
+    }
 }
