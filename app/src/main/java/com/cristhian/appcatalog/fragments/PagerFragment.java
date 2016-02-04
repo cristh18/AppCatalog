@@ -11,15 +11,27 @@ import android.view.ViewGroup;
 import com.cristhian.appcatalog.MainActivity;
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.adapters.PageAdapter;
+import com.cristhian.appcatalog.repository.CategoryRepository;
 
 /**
  * Created by ctolosa on 02/02/2016.
  */
 public class PagerFragment extends Fragment {
-    public static final int NUM_PAGES = 9;
+
+    CategoryRepository categoryRepository = CategoryRepository.getCateRepoInstance();
+
+    public static int NUM_PAGES;
     public ViewPager mPagerHandler;
     private PageAdapter mPagerAdapter;
-    public static MainScreenFragment[] viewFragments = new MainScreenFragment[9];
+    public static MainScreenFragment[] viewFragments;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int numberCategories = categoryRepository.getCategories(getActivity()).size();
+        NUM_PAGES = numberCategories;
+        viewFragments = new MainScreenFragment[numberCategories];
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,7 +40,7 @@ public class PagerFragment extends Fragment {
         mPagerAdapter = new PageAdapter(getChildFragmentManager(), getActivity());
         for (int i = 0; i < NUM_PAGES; i++) {
             viewFragments[i] = new MainScreenFragment();
-            viewFragments[i].setFragmentCategory(String.valueOf(i));
+            viewFragments[i].setFragmentCategory(String.valueOf(i-1));
         }
         mPagerHandler.setAdapter(mPagerAdapter);
         mPagerHandler.setCurrentItem(MainActivity.current_fragment);

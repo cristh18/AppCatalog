@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.cristhian.appcatalog.entities.CategoryEntity;
 import com.cristhian.appcatalog.helpers.AppsDBHelper;
+import com.cristhian.appcatalog.models.CategoryAttribute;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ctolosa on 02/02/2016.
@@ -50,12 +54,11 @@ public class CategoryRepository {
     }
 
     /**
-     *
      * @param context
      * @return
      */
-    public Long getCountCategories(Context context){
-        Long count=null;
+    public Long getCountCategories(Context context) {
+        Long count = null;
         AppsDBHelper appsDBHelper = new AppsDBHelper(context);
         SQLiteDatabase db = appsDBHelper.getReadableDatabase();
 
@@ -70,5 +73,30 @@ public class CategoryRepository {
         }
 
         return count;
+    }
+
+    /**
+     * @param context
+     * @return
+     */
+    public List<CategoryAttribute> getCategories(Context context) {
+        List<CategoryAttribute> categoryAttributes = new ArrayList<>();
+        AppsDBHelper appsDBHelper = new AppsDBHelper(context);
+        SQLiteDatabase db = appsDBHelper.getReadableDatabase();
+
+        String query = "SELECT * FROM " + CategoryEntity.TABLE_NAME + " c";
+
+        Cursor cursor = db.rawQuery(query, new String[]{});
+
+        if (cursor.moveToFirst()) {
+            do {
+                CategoryAttribute categoryAttribute = new CategoryAttribute();
+                categoryAttribute.setImId(cursor.getString(cursor.getColumnIndex(CategoryEntity._ID)));
+                categoryAttribute.setLabel(cursor.getString(cursor.getColumnIndex(CategoryEntity.LABEL)));
+                categoryAttributes.add(categoryAttribute);
+            } while (cursor.moveToNext());
+        }
+
+        return categoryAttributes;
     }
 }
