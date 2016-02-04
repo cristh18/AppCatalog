@@ -25,7 +25,8 @@ public class Utilies {
         Long countCategories = categoryRepository.getCountCategories(context);
         Long countImages = imageRepository.getCountCategories(context);
 
-        if (countApps == 20 && countCategories == 9 && countImages == 60){
+//        if (countApps == 20 && countCategories == 9 && countImages == 60){
+        if (countApps != 0 && countCategories != 0 && countImages != 0){
             existCatalog = true;
         }else {
             existCatalog = false;

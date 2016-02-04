@@ -1,7 +1,6 @@
 package com.cristhian.appcatalog.adapters;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cristhian.appcatalog.R;
-import com.cristhian.appcatalog.models.AppImage;
+import com.cristhian.appcatalog.interfaces.ItemClickListener;
 import com.cristhian.appcatalog.models.ApplicationData;
-import com.cristhian.appcatalog.models.ImImage;
-import com.cristhian.appcatalog.utils.RecyclerViewCursorAdapter;
 import com.cristhian.appcatalog.views.AppsViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -27,7 +24,11 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
     private Context mContext;
     private final List<ApplicationData> appsData;
 
+    private ItemClickListener mListener;
 
+    public void setOnItemClickListener(ItemClickListener listener) {
+        mListener = listener;
+    }
 
     public AppAdapter(Context context, List<ApplicationData> appsData) {
         this.appsData = appsData;
@@ -47,7 +48,17 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
     public void onBindViewHolder(final AppsViewHolder appsViewHolder, final int position) {
         Log.e(LOG_TAG, "ENTER TO BINDVIEWHOLDER");
 
-        ApplicationData appData = appsData.get(position);
+        final ApplicationData appData = appsData.get(position);
+
+
+        appsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClicked(v, position, appData);
+            }
+        });
+
+
         String appImageURL = appData.getApplicationImage().getImagerUrl();
         String appTitle = appData.getApplicationTitle();
         Context context = appsViewHolder.imageView.getContext();
@@ -59,6 +70,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
     @Override
     public int getItemCount() {
         return appsData.size();
+    }
+
+    private ApplicationData getItem(int position) {
+        return appsData.get(position);
     }
 
     public void add(ApplicationData item) {

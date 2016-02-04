@@ -1,33 +1,21 @@
 package com.cristhian.appcatalog.fragments;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.adapters.AppAdapter;
-import com.cristhian.appcatalog.entities.AppEntity;
-import com.cristhian.appcatalog.entities.ImageEntity;
-import com.cristhian.appcatalog.managers.DatabaseContract;
+import com.cristhian.appcatalog.interfaces.ItemClickListener;
 import com.cristhian.appcatalog.models.AppImage;
 import com.cristhian.appcatalog.models.ApplicationData;
-import com.cristhian.appcatalog.models.Entry;
-import com.cristhian.appcatalog.models.ImImage;
-import com.cristhian.appcatalog.network.CatalogTask;
 import com.cristhian.appcatalog.repository.AppRepository;
 import com.cristhian.appcatalog.repository.ImageRepository;
 
@@ -91,6 +79,14 @@ public class MainScreenFragment extends Fragment {
         myRecyclerView.setLayoutManager(mLayoutManager);
         myRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //getLoaderManager().restartLoader(APPS_LOADER, null, this);
+
+        customListAdapter.setOnItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemClicked(View view, int position, ApplicationData data) {
+                ApplicationData applicationData = data;
+                Log.e(LOG_TAG, "click!!! " + applicationData.getApplicationName() + " click!!!");
+            }
+        });
 
         return rootView;
     }

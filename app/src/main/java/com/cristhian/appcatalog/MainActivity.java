@@ -9,9 +9,6 @@ import android.widget.Toast;
 
 import com.cristhian.appcatalog.fragments.PagerFragment;
 import com.cristhian.appcatalog.interfaces.ICatalogResponse;
-import com.cristhian.appcatalog.repository.AppRepository;
-import com.cristhian.appcatalog.repository.CategoryRepository;
-import com.cristhian.appcatalog.repository.ImageRepository;
 import com.cristhian.appcatalog.service.AppProvider;
 import com.cristhian.appcatalog.network.CatalogTask;
 import com.cristhian.appcatalog.utils.Utilies;
