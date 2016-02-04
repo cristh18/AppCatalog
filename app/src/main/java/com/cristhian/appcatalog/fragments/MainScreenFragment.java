@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.adapters.AppAdapter;
 import com.cristhian.appcatalog.entities.AppEntity;
+import com.cristhian.appcatalog.entities.ImageEntity;
 import com.cristhian.appcatalog.managers.DatabaseContract;
 import com.cristhian.appcatalog.models.Entry;
 import com.cristhian.appcatalog.network.CatalogTask;
@@ -28,7 +30,7 @@ import java.util.List;
 public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static AppAdapter appAdapter;
-    public static final int APPS_LOADER = 0;
+    public static final int APPS_LOADER = 1;
     public static int count = 0;
 
 
@@ -51,10 +53,13 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
                              final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         final RecyclerView app_list = (RecyclerView) rootView.findViewById(R.id.app_list);
-        appAdapter = new AppAdapter(getActivity(), null);
+        appAdapter = new AppAdapter(getActivity());
+        app_list.setLayoutManager(linearLayoutManager);
         app_list.setAdapter(appAdapter);
-        //getLoaderManager().initLoader(APPS_LOADER, null, this);
+//        getLoaderManager().initLoader(APPS_LOADER, null, this);
+        getLoaderManager().restartLoader(APPS_LOADER, null, this);
 
 
 //        getLoaderManager().initLoader(SCORES_LOADER, null, this);
@@ -73,7 +78,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), AppEntity.buildAppWithId(),
+        return new CursorLoader(getActivity(), ImageEntity.buildImageUri(id),
                 null, null, fragmentCategory, null);
     }
 
