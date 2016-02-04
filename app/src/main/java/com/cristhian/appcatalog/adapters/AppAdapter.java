@@ -30,23 +30,24 @@ public class AppAdapter extends RecyclerViewCursorAdapter<AppsViewHolder> {
 
     private final String LOG_TAG = AppAdapter.class.getSimpleName();
     private final LayoutInflater layoutInflater;
-    Context context;
 
     public AppAdapter(Context context) {
         super();
-        this.context=context;
         this.layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public AppsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = this.layoutInflater.inflate(R.layout.apps_list_item, parent, false);
+        //final View view = this.layoutInflater.inflate(R.layout.apps_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.apps_list_item, parent, false);
         return new AppsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(AppsViewHolder holder, Cursor cursor) {
-        String itemImagew = cursor.getString(cursor.getColumnIndex(ImageEntity.LABEL));
-        Log.e(LOG_TAG, "DATA CONSULTED!!!: " + itemImagew);
+//        String itemImagew = cursor.getString(cursor.getColumnIndex(ImageEntity.LABEL));
+//        Log.e(LOG_TAG, "DATA CONSULTED!!!: " + itemImagew);
+//        Context context = holder.imageView.getContext();
+//        Picasso.with(context).load(itemImagew).noFade().into(holder.imageView);
     }
 }

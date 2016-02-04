@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
     private AlertDialog.Builder dialog;
     private PagerFragment pagerFragment;
     public static int current_fragment = 2;
+    private final String save_tag = "Save Test";
 
     AppProvider appProvider;
 
@@ -37,13 +38,19 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
 //        fragmentTransaction.commit();
         appProvider = new AppProvider();
 
-        if (Utilies.validateCatalog(this)){
-            Log.e(LOG_TAG, "Catalog exist!!!!!!!");
-            goToMainScreen();
-        }else {
-            String url = getString(R.string.base_url);
-            getCatalog(url);
+
+        if (savedInstanceState == null) {
+            if (Utilies.validateCatalog(this)){
+                Log.e(LOG_TAG, "Catalog exist!!!!!!!");
+                goToMainScreen();
+            }else {
+                String url = getString(R.string.base_url);
+                getCatalog(url);
+            }
         }
+
+
+
 
         showExitDialog();
     }
@@ -85,6 +92,26 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
                 dialogInterface.dismiss();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        Log.v(save_tag,"will save");
+        Log.v(save_tag, "fragment: " + String.valueOf(pagerFragment.mPagerHandler.getCurrentItem()));
+        outState.putInt("Pager_Current",pagerFragment.mPagerHandler.getCurrentItem());
+        getSupportFragmentManager().putFragment(outState,"pagerFragment",pagerFragment);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        Log.v(save_tag,"will retrive");
+        Log.v(save_tag,"fragment: "+String.valueOf(savedInstanceState.getInt("Pager_Current")));
+        current_fragment = savedInstanceState.getInt("Pager_Current");
+        pagerFragment = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState,"my_main");
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override

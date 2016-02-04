@@ -1,17 +1,21 @@
 package com.cristhian.appcatalog.fragments;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.adapters.AppAdapter;
@@ -29,13 +33,16 @@ import java.util.List;
  */
 public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static AppAdapter appAdapter;
     public static final int APPS_LOADER = 1;
     public static int count = 0;
 
 
     private String[] fragmentCategory = new String[1];
     private int last_selected_item = -1;
+
+    private RecyclerView myRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
+    public static AppAdapter customListAdapter;
 
     public MainScreenFragment() {
     }
@@ -53,12 +60,13 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
                              final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        final RecyclerView app_list = (RecyclerView) rootView.findViewById(R.id.app_list);
-        appAdapter = new AppAdapter(getActivity());
-        app_list.setLayoutManager(linearLayoutManager);
-        app_list.setAdapter(appAdapter);
-//        getLoaderManager().initLoader(APPS_LOADER, null, this);
+        customListAdapter = new AppAdapter(getActivity());
+        myRecyclerView = (RecyclerView) rootView.findViewById(R.id.app_list);
+        myRecyclerView.setAdapter(customListAdapter);
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        myRecyclerView.setHasFixedSize(true);
+        myRecyclerView.setLayoutManager(mLayoutManager);
+        myRecyclerView.setItemAnimator(new DefaultItemAnimator());
         getLoaderManager().restartLoader(APPS_LOADER, null, this);
 
 
@@ -78,25 +86,44 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        for (int j = 0; j< fragmentCategory.length; j++){
+            Log.e(this.getClass().getName(), "Value fragmentDate: " + fragmentCategory[j]);
+        }
+        Log.e(this.getClass().getName(), "========================");
         return new CursorLoader(getActivity(), ImageEntity.buildImageUri(id),
                 null, null, fragmentCategory, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+//
+//        int i = 0;
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            i++;
+//            cursor.moveToNext();
+//        }
+//        customListAdapter.swapCursor(cursor);
 
-        int i = 0;
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            i++;
-            cursor.moveToNext();
+
+        switch (loader.getId()) {
+            case APPS_LOADER:
+
+                this.customListAdapter.swapCursor(cursor);
+                break;
         }
-        appAdapter.swapCursor(cursor);
+
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        appAdapter.swapCursor(null);
+        //customListAdapter.swapCursor(null);
+        switch (loader.getId()) {
+            case APPS_LOADER:
+                this.customListAdapter.swapCursor(null);
+                break;
+        }
     }
 
 }

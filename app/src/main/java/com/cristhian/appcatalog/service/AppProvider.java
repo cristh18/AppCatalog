@@ -196,6 +196,6 @@ public class AppProvider extends ContentProvider {
     /*----------*/
 
     private static final String IMAGES_APP_ID =
-            ImageEntity.APP_ID + " = ?";
+            ImageEntity._ID + " = ?";
 
 }
