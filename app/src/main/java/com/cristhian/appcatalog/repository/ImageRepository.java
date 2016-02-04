@@ -4,8 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.cristhian.appcatalog.entities.AppEntity;
 import com.cristhian.appcatalog.entities.ImageEntity;
 import com.cristhian.appcatalog.helpers.AppsDBHelper;
+import com.cristhian.appcatalog.models.AppImage;
+import com.cristhian.appcatalog.models.Attribute;
+import com.cristhian.appcatalog.models.ImImage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ctolosa on 03/02/2016.
@@ -44,6 +51,35 @@ public class ImageRepository {
         }
 
         return count;
+    }
+
+    /**
+     * @param context
+     * @return
+     */
+    public List<AppImage> getImagesByCategory(Context context, String categoryId, String height) {
+        List<AppImage> appImages = new ArrayList<>();
+        AppsDBHelper appsDBHelper = new AppsDBHelper(context);
+        SQLiteDatabase db = appsDBHelper.getReadableDatabase();
+        //SELECT * FROM image i where i.app_id in (SELECT a._id FROM app a where a.category_id=1) and i.height=53
+        String query = "SELECT * FROM " + ImageEntity.TABLE_NAME + " i WHERE i." + ImageEntity.APP_ID +
+                " IN(SELECT a." + AppEntity._ID + " FROM " + AppEntity.TABLE_NAME + " a WHERE a."
+                + AppEntity.CATEGORY_ID + "=?) AND i." + ImageEntity.HEIGHT + "=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{categoryId, height});
+
+        if (cursor.moveToFirst()) {
+            do {
+                AppImage appImage = new AppImage();
+                appImage.setImageIdentifier(cursor.getInt(cursor.getColumnIndex(ImageEntity._ID)));
+                appImage.setImagerUrl(cursor.getString(cursor.getColumnIndex(ImageEntity.LABEL)));
+                appImage.setImageHeight(cursor.getString(cursor.getColumnIndex(ImageEntity.HEIGHT)));
+                appImage.setApplicationIdentifier(cursor.getInt(cursor.getColumnIndex(ImageEntity.APP_ID)));
+                appImages.add(appImage);
+            } while (cursor.moveToNext());
+        }
+
+        return appImages;
     }
 
 }

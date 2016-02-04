@@ -1,5 +1,6 @@
 package com.cristhian.appcatalog.fragments;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +23,13 @@ import com.cristhian.appcatalog.adapters.AppAdapter;
 import com.cristhian.appcatalog.entities.AppEntity;
 import com.cristhian.appcatalog.entities.ImageEntity;
 import com.cristhian.appcatalog.managers.DatabaseContract;
+import com.cristhian.appcatalog.models.AppImage;
+import com.cristhian.appcatalog.models.ApplicationData;
 import com.cristhian.appcatalog.models.Entry;
+import com.cristhian.appcatalog.models.ImImage;
 import com.cristhian.appcatalog.network.CatalogTask;
+import com.cristhian.appcatalog.repository.AppRepository;
+import com.cristhian.appcatalog.repository.ImageRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +37,9 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
+public class MainScreenFragment extends Fragment {
+    //implements LoaderManager.LoaderCallbacks<Cursor> {
+    private final String LOG_TAG = MainScreenFragment.class.getSimpleName();
     public static final int APPS_LOADER = 1;
     public static int count = 0;
 
@@ -43,6 +50,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     private RecyclerView myRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     public static AppAdapter customListAdapter;
+
+    List<ApplicationData> appsData;
 
     public MainScreenFragment() {
     }
@@ -60,70 +69,88 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
                              final Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        customListAdapter = new AppAdapter(getActivity());
+
+        appsData = new ArrayList<>();
+        for (int j = 0; j< fragmentCategory.length; j++){
+            Log.e(LOG_TAG, "Value fragmentDate: " + fragmentCategory[j]);
+            int number = Integer.parseInt(fragmentCategory[j])+1;
+            getAppInfo(getActivity(), String.valueOf(number));
+        }
+
+
+        //movies.add("AFDFs");
+
+        customListAdapter = new AppAdapter(getActivity(), appsData);
+
+        //customListAdapter.add("asdasfa");
+
         myRecyclerView = (RecyclerView) rootView.findViewById(R.id.app_list);
         myRecyclerView.setAdapter(customListAdapter);
         mLayoutManager = new GridLayoutManager(getActivity(), 2);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(mLayoutManager);
         myRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        getLoaderManager().restartLoader(APPS_LOADER, null, this);
+        //getLoaderManager().restartLoader(APPS_LOADER, null, this);
 
-
-//        getLoaderManager().initLoader(SCORES_LOADER, null, this);
-//        mAdapter.detail_match_id = MainActivity.selected_match_id;
-//        score_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ViewHolder selected = (ViewHolder) view.getTag();
-//                mAdapter.detail_match_id = selected.match_id;
-//                MainActivity.selected_match_id = (int) selected.match_id;
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        });
         return rootView;
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
-        for (int j = 0; j< fragmentCategory.length; j++){
-            Log.e(this.getClass().getName(), "Value fragmentDate: " + fragmentCategory[j]);
-        }
-        Log.e(this.getClass().getName(), "========================");
-        return new CursorLoader(getActivity(), ImageEntity.buildImageUri(id),
-                null, null, fragmentCategory, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 //
-//        int i = 0;
-//        cursor.moveToFirst();
-//        while (!cursor.isAfterLast()) {
-//            i++;
-//            cursor.moveToNext();
+//        for (int j = 0; j< fragmentCategory.length; j++){
+//            Log.e(this.getClass().getName(), "Value fragmentDate: " + fragmentCategory[j]);
 //        }
-//        customListAdapter.swapCursor(cursor);
+//        Log.e(this.getClass().getName(), "========================");
+//        return new CursorLoader(getActivity(), ImageEntity.buildImageUri(id),
+//                null, null, fragmentCategory, null);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+////
+////        int i = 0;
+////        cursor.moveToFirst();
+////        while (!cursor.isAfterLast()) {
+////            i++;
+////            cursor.moveToNext();
+////        }
+////        customListAdapter.swapCursor(cursor);
+//
+//
+//        switch (loader.getId()) {
+//            case APPS_LOADER:
+//
+//                this.customListAdapter.swapCursor(cursor);
+//                break;
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//        //customListAdapter.swapCursor(null);
+//        switch (loader.getId()) {
+//            case APPS_LOADER:
+//                this.customListAdapter.swapCursor(null);
+//                break;
+//        }
+//    }
 
 
-        switch (loader.getId()) {
-            case APPS_LOADER:
-
-                this.customListAdapter.swapCursor(cursor);
-                break;
+    private void getAppInfo(Context context, String categoryId){
+        ImageRepository imageRepository = ImageRepository.getImageRepoInstance();
+        AppRepository appRepository = AppRepository.getAppRepoInstance();
+        List<AppImage> imagesApp = imageRepository.getImagesByCategory(context, categoryId, "53");
+        List<ApplicationData> apps = new ArrayList<>();
+        for (AppImage image:imagesApp) {
+            ApplicationData app = new ApplicationData();
+            app = appRepository.getAppById(context, image.getApplicationIdentifier());
+            app.setApplicationImage(image);
+            apps.add(app);
         }
 
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        //customListAdapter.swapCursor(null);
-        switch (loader.getId()) {
-            case APPS_LOADER:
-                this.customListAdapter.swapCursor(null);
-                break;
-        }
+        appsData.addAll(apps);
     }
 
 }

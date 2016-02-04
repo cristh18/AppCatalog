@@ -7,16 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CursorAdapter;
-import android.widget.ImageView;
 
 import com.cristhian.appcatalog.R;
-import com.cristhian.appcatalog.entities.ImageEntity;
-import com.cristhian.appcatalog.interfaces.OnItemClick;
-import com.cristhian.appcatalog.models.Entry;
+import com.cristhian.appcatalog.models.AppImage;
+import com.cristhian.appcatalog.models.ApplicationData;
 import com.cristhian.appcatalog.models.ImImage;
-import com.cristhian.appcatalog.utils.CursorRecyclerViewAdapter;
 import com.cristhian.appcatalog.utils.RecyclerViewCursorAdapter;
 import com.cristhian.appcatalog.views.AppsViewHolder;
 import com.squareup.picasso.Picasso;
@@ -26,28 +21,49 @@ import java.util.List;
 /**
  * Created by ctolosa on 02/02/2016.
  */
-public class AppAdapter extends RecyclerViewCursorAdapter<AppsViewHolder> {
+public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
 
     private final String LOG_TAG = AppAdapter.class.getSimpleName();
-    private final LayoutInflater layoutInflater;
+    private Context mContext;
+    private final List<ApplicationData> appsData;
 
-    public AppAdapter(Context context) {
-        super();
-        this.layoutInflater = LayoutInflater.from(context);
+
+
+    public AppAdapter(Context context, List<ApplicationData> appsData) {
+        this.appsData = appsData;
+        this.mContext = context;
     }
 
     @Override
-    public AppsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //final View view = this.layoutInflater.inflate(R.layout.apps_list_item, parent, false);
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.apps_list_item, parent, false);
-        return new AppsViewHolder(view);
+    public AppsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.
+                from(viewGroup.getContext()).
+                inflate(R.layout.apps_list_item, viewGroup, false);
+
+        return new AppsViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(AppsViewHolder holder, Cursor cursor) {
-//        String itemImagew = cursor.getString(cursor.getColumnIndex(ImageEntity.LABEL));
-//        Log.e(LOG_TAG, "DATA CONSULTED!!!: " + itemImagew);
-//        Context context = holder.imageView.getContext();
-//        Picasso.with(context).load(itemImagew).noFade().into(holder.imageView);
+    public void onBindViewHolder(final AppsViewHolder appsViewHolder, final int position) {
+        Log.e(LOG_TAG, "ENTER TO BINDVIEWHOLDER");
+
+        ApplicationData appData = appsData.get(position);
+        String appImageURL = appData.getApplicationImage().getImagerUrl();
+        String appTitle = appData.getApplicationTitle();
+        Context context = appsViewHolder.imageView.getContext();
+        Picasso.with(context).load(appImageURL).noFade().into(appsViewHolder.imageView);
+        appsViewHolder.textView.setText(appTitle);
+
     }
+
+    @Override
+    public int getItemCount() {
+        return appsData.size();
+    }
+
+    public void add(ApplicationData item) {
+        appsData.add(item);
+        this.notifyDataSetChanged();
+    }
+
 }
