@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/appImageDetail"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/manchester_united" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/white01"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/appTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet..."
-        android:textSize="20dp" />
+        <ImageView
+            android:id="@+id/appImageDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop" />
 
-    <Button
-        android:id="@+id/dismiss"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dismiss" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black01"/>
+
+        <TextView
+            android:id="@+id/appSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black01"/>
+
+        <Button
+            android:id="@+id/dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_dismiss"
+            android:theme="@style/MyButton"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    </LinearLayout>
+</ScrollView>

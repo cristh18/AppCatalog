@@ -90,7 +90,7 @@ public class MainScreenFragment extends Fragment {
             public void onItemClicked(View view, int position, ApplicationData data) {
                 ApplicationData applicationData = data;
                 Log.e(LOG_TAG, "click!!! " + applicationData.getApplicationName() + " click!!!");
-                showDetailInfoApp();
+                showDetailInfoApp(data);
             }
         });
 
@@ -155,9 +155,10 @@ public class MainScreenFragment extends Fragment {
         appsData.addAll(apps);
     }
 
-    private void showDetailInfoApp() {
+    private void showDetailInfoApp(ApplicationData applicationData) {
         FragmentManager fm = getFragmentManager();
         DetailAppFragment dialogFragment = new DetailAppFragment();
+        dialogFragment.setApplicationData(applicationData);
         dialogFragment.show(fm, "Sample Fragment");
     }
 

@@ -19,6 +19,6 @@ public class AppsViewHolder extends RecyclerView.ViewHolder {
     public AppsViewHolder(View v) {
         super(v);
         imageView = (ImageView) v.findViewById(R.id.image);
-        textView = (TextView)v.findViewById(R.id.labelTest);
+        textView = (TextView)v.findViewById(R.id.label_title);
     }
 }
