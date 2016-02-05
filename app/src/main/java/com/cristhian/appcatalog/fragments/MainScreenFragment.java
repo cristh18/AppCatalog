@@ -24,12 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Created by Cristhian on 2/4/2016.
  */
 public class MainScreenFragment extends Fragment {
-    //implements LoaderManager.LoaderCallbacks<Cursor> {
+
     private final String LOG_TAG = MainScreenFragment.class.getSimpleName();
-    public static final int APPS_LOADER = 1;
     public static int count = 0;
 
 
@@ -50,11 +49,6 @@ public class MainScreenFragment extends Fragment {
         fragmentCategory[0] = category;
     }
 
-    //    public void setFragmentDate(String date) {
-//        fragmentdate[0] = date;
-//    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -68,12 +62,7 @@ public class MainScreenFragment extends Fragment {
             getAppInfo(getActivity(), String.valueOf(number));
         }
 
-
-        //movies.add("AFDFs");
-
         customListAdapter = new AppAdapter(getActivity(), appsData);
-
-        //customListAdapter.add("asdasfa");
 
         myRecyclerView = (RecyclerView) rootView.findViewById(R.id.app_list);
         myRecyclerView.setAdapter(customListAdapter);
@@ -81,9 +70,6 @@ public class MainScreenFragment extends Fragment {
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setLayoutManager(mLayoutManager);
         myRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //getLoaderManager().restartLoader(APPS_LOADER, null, this);
-
-
 
         customListAdapter.setOnItemClickListener(new ItemClickListener() {
             @Override
@@ -96,49 +82,6 @@ public class MainScreenFragment extends Fragment {
 
         return rootView;
     }
-
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//
-//        for (int j = 0; j< fragmentCategory.length; j++){
-//            Log.e(this.getClass().getName(), "Value fragmentDate: " + fragmentCategory[j]);
-//        }
-//        Log.e(this.getClass().getName(), "========================");
-//        return new CursorLoader(getActivity(), ImageEntity.buildImageUri(id),
-//                null, null, fragmentCategory, null);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-////
-////        int i = 0;
-////        cursor.moveToFirst();
-////        while (!cursor.isAfterLast()) {
-////            i++;
-////            cursor.moveToNext();
-////        }
-////        customListAdapter.swapCursor(cursor);
-//
-//
-//        switch (loader.getId()) {
-//            case APPS_LOADER:
-//
-//                this.customListAdapter.swapCursor(cursor);
-//                break;
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//        //customListAdapter.swapCursor(null);
-//        switch (loader.getId()) {
-//            case APPS_LOADER:
-//                this.customListAdapter.swapCursor(null);
-//                break;
-//        }
-//    }
-
 
     private void getAppInfo(Context context, String categoryId) {
         ImageRepository imageRepository = ImageRepository.getImageRepoInstance();

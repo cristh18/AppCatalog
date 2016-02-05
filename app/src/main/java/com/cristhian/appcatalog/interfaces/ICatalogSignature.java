@@ -1,7 +1,6 @@
 package com.cristhian.appcatalog.interfaces;
 
 import com.cristhian.appcatalog.models.Catalog;
-import com.cristhian.appcatalog.models.Feed;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

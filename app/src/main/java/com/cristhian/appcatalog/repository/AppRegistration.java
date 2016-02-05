@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.cristhian.appcatalog.entities.AppEntity;
-import com.cristhian.appcatalog.entities.CategoryEntity;
 import com.cristhian.appcatalog.models.Entry;
 
 /**
@@ -41,7 +40,6 @@ public class AppRegistration {
     CategoryRegistration categoryRegistration = CategoryRegistration.getCatRegistrationInstance();
 
     /**
-     *
      * @param context
      * @param entry
      */
@@ -49,8 +47,8 @@ public class AppRegistration {
 
         ContentValues values = new ContentValues();
         String categoryId = categoryRepository.getCategoryByIdentifier(context, entry.getCategory().getAttributes().getImId());
-        if (categoryId==null){
-            categoryRegistration.createCategory(context,entry.getCategory());
+        if (categoryId == null) {
+            categoryRegistration.createCategory(context, entry.getCategory());
             categoryId = categoryRepository.getCategoryByIdentifier(context, entry.getCategory().getAttributes().getImId());
         }
 

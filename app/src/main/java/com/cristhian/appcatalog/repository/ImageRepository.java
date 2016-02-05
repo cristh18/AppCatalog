@@ -61,7 +61,6 @@ public class ImageRepository {
         List<AppImage> appImages = new ArrayList<>();
         AppsDBHelper appsDBHelper = new AppsDBHelper(context);
         SQLiteDatabase db = appsDBHelper.getReadableDatabase();
-        //SELECT * FROM image i where i.app_id in (SELECT a._id FROM app a where a.category_id=1) and i.height=53
         String query = "SELECT * FROM " + ImageEntity.TABLE_NAME + " i WHERE i." + ImageEntity.APP_ID +
                 " IN(SELECT a." + AppEntity._ID + " FROM " + AppEntity.TABLE_NAME + " a WHERE a."
                 + AppEntity.CATEGORY_ID + "=?) AND i." + ImageEntity.HEIGHT + "=?";

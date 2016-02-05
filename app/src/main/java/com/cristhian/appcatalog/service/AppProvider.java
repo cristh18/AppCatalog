@@ -66,12 +66,6 @@ public class AppProvider extends ContentProvider {
                 break;
             }
 
-            case IMAGES_BY_APP_ID: {
-                retCursor = appsDBHelper.getReadableDatabase().query(
-                        ImageEntity.TABLE_NAME,
-                        projection, IMAGES_APP_ID, selectionArgs, null, null, sortOrder);
-                break;
-            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -192,10 +186,5 @@ public class AppProvider extends ContentProvider {
         }
         return rowsUpdated;
     }
-
-    /*----------*/
-
-    private static final String IMAGES_APP_ID =
-            ImageEntity._ID + " = ?";
 
 }

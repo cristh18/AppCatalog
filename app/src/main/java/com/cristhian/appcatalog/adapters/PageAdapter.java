@@ -46,38 +46,16 @@ public class PageAdapter extends FragmentStatePagerAdapter {
      */
     private String getNamePage(Context context, int category) {
 
-        for (int i = 0; i < PagerFragment.viewFragments.length;i++){
-            if (i==category){
+        for (int i = 0; i < PagerFragment.viewFragments.length; i++) {
+            if (i == category) {
                 return searchCategoryName(category);
             }
         }
         return null;
-//        if (category == 0) {
-//            return "Games";
-//        } else if (category == 1) {
-//            return "Social Networking";
-//        } else if (category == 2) {
-//            return "Photo & video";
-//        } else if (category == 3) {
-//            return "Health & Fitness";
-//        } else if (category == 4) {
-//            return "Music";
-//        } else if (category == 5) {
-//            return "Education";
-//        } else if (category == 6) {
-//            return "Finance";
-//        } else if (category == 7) {
-//            return "Shopping";
-//        } else if (category == 8) {
-//            return "Navigation";
-//        } else {
-//            return "";
-//        }
     }
 
     private String searchCategoryName(int category) {
         String categoryName = "";
-        //int categoryTemp=category++;
         CategoryRepository categoryRepository = CategoryRepository.getCateRepoInstance();
         List<CategoryAttribute> categories = categoryRepository.getCategories(context);
         for (CategoryAttribute c : categories) {
