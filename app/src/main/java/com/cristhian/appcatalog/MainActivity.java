@@ -2,6 +2,7 @@ package com.cristhian.appcatalog;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,12 +25,20 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
 
     AppProvider appProvider;
 
+    public static boolean IS_TABLET = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         appProvider = new AppProvider();
+
+        if (IS_TABLET) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
 
         if (savedInstanceState == null) {
