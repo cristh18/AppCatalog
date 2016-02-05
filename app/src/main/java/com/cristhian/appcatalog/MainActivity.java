@@ -29,10 +29,6 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.content_main, new HomeFragment());
-//        fragmentTransaction.commit();
         appProvider = new AppProvider();
 
 
