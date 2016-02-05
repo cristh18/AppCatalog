@@ -24,13 +24,15 @@
             android:id="@+id/appTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black01"/>
+            android:textColor="@color/black01"
+            android:alpha="0.8"/>
 
         <TextView
             android:id="@+id/appSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black01"/>
+            android:textColor="@color/black01"
+            android:alpha="0.5"/>
 
         <Button
             android:id="@+id/dismiss"
