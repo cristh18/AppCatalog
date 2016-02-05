@@ -137,7 +137,7 @@ public class MainScreenFragment extends Fragment {
     private void getAppInfo(Context context, String categoryId){
         ImageRepository imageRepository = ImageRepository.getImageRepoInstance();
         AppRepository appRepository = AppRepository.getAppRepoInstance();
-        List<AppImage> imagesApp = imageRepository.getImagesByCategory(context, categoryId, "53");
+        List<AppImage> imagesApp = imageRepository.getImagesByCategory(context, categoryId, "100");
         List<ApplicationData> apps = new ArrayList<>();
         for (AppImage image:imagesApp) {
             ApplicationData app = new ApplicationData();

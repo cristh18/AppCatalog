@@ -9,7 +9,7 @@
         android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/green12"
+        android:background="@color/white01"
         tools:context="com.cristhian.appcatalog.MainActivity"
         tools:ignore="MergeRootFrame">
 

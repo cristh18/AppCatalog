@@ -3,6 +3,7 @@ package com.cristhian.appcatalog.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,12 @@ public class PagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
         mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
+
+        PagerTabStrip pagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_header);
+        pagerTabStrip.setDrawFullUnderline(true);
+        pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.red09));
+        pagerTabStrip.setBackgroundColor(getResources().getColor(R.color.blue01));
+
         mPagerAdapter = new PageAdapter(getChildFragmentManager(), getActivity());
         for (int i = 0; i < NUM_PAGES; i++) {
             viewFragments[i] = new MainScreenFragment();
