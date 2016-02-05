@@ -3,6 +3,7 @@ package com.cristhian.appcatalog.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class MainScreenFragment extends Fragment {
 
     List<ApplicationData> appsData;
 
+
     public MainScreenFragment() {
     }
 
@@ -52,6 +54,7 @@ public class MainScreenFragment extends Fragment {
 //        fragmentdate[0] = date;
 //    }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -59,9 +62,9 @@ public class MainScreenFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         appsData = new ArrayList<>();
-        for (int j = 0; j< fragmentCategory.length; j++){
+        for (int j = 0; j < fragmentCategory.length; j++) {
             Log.e(LOG_TAG, "Value fragmentDate: " + fragmentCategory[j]);
-            int number = Integer.parseInt(fragmentCategory[j])+1;
+            int number = Integer.parseInt(fragmentCategory[j]) + 1;
             getAppInfo(getActivity(), String.valueOf(number));
         }
 
@@ -80,11 +83,14 @@ public class MainScreenFragment extends Fragment {
         myRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //getLoaderManager().restartLoader(APPS_LOADER, null, this);
 
+
+
         customListAdapter.setOnItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClicked(View view, int position, ApplicationData data) {
                 ApplicationData applicationData = data;
                 Log.e(LOG_TAG, "click!!! " + applicationData.getApplicationName() + " click!!!");
+                showDetailInfoApp();
             }
         });
 
@@ -134,12 +140,12 @@ public class MainScreenFragment extends Fragment {
 //    }
 
 
-    private void getAppInfo(Context context, String categoryId){
+    private void getAppInfo(Context context, String categoryId) {
         ImageRepository imageRepository = ImageRepository.getImageRepoInstance();
         AppRepository appRepository = AppRepository.getAppRepoInstance();
         List<AppImage> imagesApp = imageRepository.getImagesByCategory(context, categoryId, "100");
         List<ApplicationData> apps = new ArrayList<>();
-        for (AppImage image:imagesApp) {
+        for (AppImage image : imagesApp) {
             ApplicationData app = new ApplicationData();
             app = appRepository.getAppById(context, image.getApplicationIdentifier());
             app.setApplicationImage(image);
@@ -147,6 +153,12 @@ public class MainScreenFragment extends Fragment {
         }
 
         appsData.addAll(apps);
+    }
+
+    private void showDetailInfoApp() {
+        FragmentManager fm = getFragmentManager();
+        DetailAppFragment dialogFragment = new DetailAppFragment();
+        dialogFragment.show(fm, "Sample Fragment");
     }
 
 }
