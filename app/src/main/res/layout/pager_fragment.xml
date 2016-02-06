@@ -10,9 +10,8 @@
         style="@style/MyToolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:subtitle="@string/toolbar_subtitle"
         app:subtitleTextAppearance="@style/ToolbarTextAppearance.Subtitle"
-        app:title="@string/app_name"
+        app:title="@string/app_title"
         app:titleTextAppearance="@style/ToolbarTextAppearance.Title" />
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"

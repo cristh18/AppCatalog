@@ -3,6 +3,7 @@ package com.cristhian.appcatalog;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,21 +26,18 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
 
     AppProvider appProvider;
 
-    public static boolean IS_TABLET = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appProvider = new AppProvider();
-
-        if (IS_TABLET) {
+        if (Utilies.isTablet(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else{
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
 
+        appProvider = new AppProvider();
 
         if (savedInstanceState == null) {
             if (Utilies.validateCatalog(this)){
@@ -99,20 +97,20 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-        Log.v(save_tag,"will save");
+        Log.v(save_tag, "will save");
         Log.v(save_tag, "fragment: " + String.valueOf(pagerFragment.mPagerHandler.getCurrentItem()));
-        outState.putInt("Pager_Current",pagerFragment.mPagerHandler.getCurrentItem());
-        getSupportFragmentManager().putFragment(outState,"pagerFragment",pagerFragment);
+        outState.putInt("Pager_Current", pagerFragment.mPagerHandler.getCurrentItem());
+        getSupportFragmentManager().putFragment(outState, "pagerFragment", pagerFragment);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
-        Log.v(save_tag,"will retrive");
-        Log.v(save_tag,"fragment: "+String.valueOf(savedInstanceState.getInt("Pager_Current")));
+        Log.e(save_tag,"will retrive");
+        Log.e(save_tag,"fragment: "+String.valueOf(savedInstanceState.getInt("Pager_Current")));
         current_fragment = savedInstanceState.getInt("Pager_Current");
-        pagerFragment = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState,"my_main");
+        pagerFragment = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState,"pagerFragment");
         super.onRestoreInstanceState(savedInstanceState);
     }
 

@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">AppCatalog</string>
+    <string name="app_title">Catalogo de aplicaciones</string>
     <string name="exit_app_msg">¿Desea salir de la Aplicación?</string>
     <string name="yes_option">Si</string>
     <string name="no_option">No</string>
     <string name="toolbar_subtitle">Categorias</string>
     <string name="action_settings">Configuración</string>
     <string name="action_dismiss">Cerrar</string>
+    <string name="application_detail">Detalle de la aplicación</string>
 </resources>
