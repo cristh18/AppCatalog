@@ -32,7 +32,7 @@
         <LinearLayout
             android:id="@+id/placeNameHolder"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal">
 
@@ -45,7 +45,6 @@
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorAccent"
-                android:layout_marginLeft="60dp"
                 android:text="Prueba"/>
 
 
