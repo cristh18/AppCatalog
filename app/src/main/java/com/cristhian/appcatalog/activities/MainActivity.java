@@ -1,53 +1,63 @@
-package com.cristhian.appcatalog;
+package com.cristhian.appcatalog.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.fragments.PagerFragment;
 import com.cristhian.appcatalog.interfaces.ICatalogResponse;
 import com.cristhian.appcatalog.service.AppProvider;
 import com.cristhian.appcatalog.network.CatalogTask;
 import com.cristhian.appcatalog.utils.Utilies;
 
-public class MainActivity extends AppCompatActivity implements ICatalogResponse {
+public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private Toolbar toolbar;
+    private boolean isListView;
+    private Menu menu;
 
     private AlertDialog.Builder dialog;
     private PagerFragment pagerFragment;
     public static int current_fragment = 2;
     private final String save_tag = "Save Test";
 
-    AppProvider appProvider;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setUpActionBar();
+        goToMainScreen();
 
-        if (Utilies.isTablet(this)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else{
-            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+//        if (Utilies.isTablet(this)) {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        } else{
+//            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        }
 
-        appProvider = new AppProvider();
 
-        if (savedInstanceState == null) {
-            if (Utilies.validateCatalog(this)){
-                Log.e(LOG_TAG, "Catalog exist!!!!!!!");
-                goToMainScreen();
-            }else {
-                String url = getString(R.string.base_url);
-                getCatalog(url);
-            }
-        }
+//        if (savedInstanceState == null) {
+//            if (Utilies.validateCatalog(this)){
+//                Log.e(LOG_TAG, "Catalog exist!!!!!!!");
+//                goToMainScreen();
+//            }else {
+//                String url = getString(R.string.base_url);
+//                getCatalog(url);
+//            }
+//        }
 
 
 
@@ -65,12 +75,48 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
                 .commit();
     }
 
-    /**
-     * @param url
-     */
-    private void getCatalog(String url) {
-        CatalogTask catalogTask = new CatalogTask(this, this);
-        catalogTask.execute(url);
+
+    private void setUpActionBar() {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_toggle) {
+            Log.e(LOG_TAG, "CLICK MENU");
+            toggle();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void toggle() {
+        MenuItem item = menu.findItem(R.id.action_toggle);
+        if (isListView) {
+            //mStaggeredLayoutManager.setSpanCount(2);
+            item.setIcon(R.drawable.ic_action_list);
+            item.setTitle("Show as list");
+            isListView = false;
+        } else {
+            //mStaggeredLayoutManager.setSpanCount(1);
+            item.setIcon(R.drawable.ic_action_grid);
+            item.setTitle("Show as grid");
+            isListView = true;
+        }
     }
 
 
@@ -114,13 +160,5 @@ public class MainActivity extends AppCompatActivity implements ICatalogResponse 
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    @Override
-    public void responseCatalog(Boolean response) {
-        if (response) {
-            goToMainScreen();
-            Toast.makeText(this, "Everything is OK", Toast.LENGTH_LONG);
-        } else {
-            Toast.makeText(this, "Something is wrong", Toast.LENGTH_LONG);
-        }
-    }
+
 }

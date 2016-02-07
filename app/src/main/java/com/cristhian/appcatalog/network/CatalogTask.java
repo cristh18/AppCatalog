@@ -1,9 +1,12 @@
 package com.cristhian.appcatalog.network;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cristhian.appcatalog.activities.LaunchScreenActivity;
+import com.cristhian.appcatalog.activities.MainActivity;
 import com.cristhian.appcatalog.interfaces.ICatalogResponse;
 import com.cristhian.appcatalog.interfaces.ICatalogSignature;
 import com.cristhian.appcatalog.models.Catalog;
@@ -21,11 +24,15 @@ import retrofit2.Retrofit;
 /**
  * Created by Cristhian on 2/1/2016.
  */
-public class CatalogTask extends AsyncTask<String, Void, Catalog> {
+public class CatalogTask extends AsyncTask<Object, Void, Catalog> {
 
     private final String LOG_TAG = CatalogTask.class.getSimpleName();
 
     private ICatalogResponse iCatalogResponse;
+
+    private static final int SPLASH_TIME = 3000;
+
+    boolean existCatalog;
 
     AppRegistration appRegistration = AppRegistration.getAppRegistrationInstance();
     ImageRegistration imageRegistration = ImageRegistration.getImageRegistrationInstance();
@@ -38,9 +45,15 @@ public class CatalogTask extends AsyncTask<String, Void, Catalog> {
     }
 
     @Override
-    protected Catalog doInBackground(String... params) {
-        Catalog catalog = getCatalog(params[0]);
-        return catalog;
+    protected Catalog doInBackground(Object... params) {
+        try {
+            Thread.sleep(SPLASH_TIME);
+            Catalog catalog = getCatalog((String)params[0], (Boolean)params[1], (Boolean)params[2]);
+            return catalog;
+        } catch (InterruptedException e) {
+            Log.e(LOG_TAG, e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -48,23 +61,31 @@ public class CatalogTask extends AsyncTask<String, Void, Catalog> {
      *
      * @return
      */
-    private Catalog getCatalog(String url) {
+    private Catalog getCatalog(String url, boolean executeService, boolean validCatalog) {
         Catalog catalog = null;
-        try {
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
-            ICatalogSignature iCatalogSignature = retrofit.create(ICatalogSignature.class);
-            Call<Catalog> call = iCatalogSignature.getCatalog();
-            Response<Catalog> response = call.execute();
-            Log.e("LOG", "Retrofit Response: " + response.raw().toString());
+        existCatalog = false;
 
-            if (response.body() != null) {
-                catalog = response.body();
+        if (executeService && !validCatalog){
+            try {
+                Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
+                ICatalogSignature iCatalogSignature = retrofit.create(ICatalogSignature.class);
+                Call<Catalog> call = iCatalogSignature.getCatalog();
+                Response<Catalog> response = call.execute();
+                Log.e("LOG", "Retrofit Response: " + response.raw().toString());
+
+                if (response.body() != null) {
+                    catalog = response.body();
+                    existCatalog = true;
+                }
+
+            } catch (Exception e) {
+                Log.e(LOG_TAG, e.getMessage());
+                Log.e(LOG_TAG, e.toString());
             }
-
-        } catch (Exception e) {
-            Log.e(LOG_TAG, e.getMessage());
-            Log.e(LOG_TAG, e.toString());
+        }else if (!executeService && validCatalog){
+            existCatalog = true;
         }
+
         return catalog;
     }
 
@@ -74,6 +95,7 @@ public class CatalogTask extends AsyncTask<String, Void, Catalog> {
      */
     private boolean saveCatalog(List<Entry> apps){
         boolean catalogSaved = false;
+
         try {
             for (Entry app:apps) {
                 appRegistration.createApp(context, app);
@@ -89,12 +111,14 @@ public class CatalogTask extends AsyncTask<String, Void, Catalog> {
 
     @Override
     protected void onPostExecute(Catalog catalog) {
-        if (catalog != null) {
+        if (catalog != null && existCatalog) {
             if (saveCatalog(catalog.getFeed().getEntry())){
                 iCatalogResponse.responseCatalog(true);
             }else {
                 iCatalogResponse.responseCatalog(false);
             }
+        }else if (catalog==null && existCatalog){
+            iCatalogResponse.responseCatalog(true);
         }else {
             iCatalogResponse.responseCatalog(false);
         }
