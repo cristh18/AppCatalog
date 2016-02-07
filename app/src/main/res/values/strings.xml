@@ -8,4 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_dismiss">Dismiss</string>
     <string name="application_detail">Application Detail</string>
+    <string name="ok">Successful access</string>
+    <string name="fail">Can not access the application</string>
+    <string name="imageSize">100</string>
 </resources>

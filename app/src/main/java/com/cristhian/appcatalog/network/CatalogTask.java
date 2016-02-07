@@ -1,12 +1,9 @@
 package com.cristhian.appcatalog.network;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cristhian.appcatalog.activities.LaunchScreenActivity;
-import com.cristhian.appcatalog.activities.MainActivity;
 import com.cristhian.appcatalog.interfaces.ICatalogResponse;
 import com.cristhian.appcatalog.interfaces.ICatalogSignature;
 import com.cristhian.appcatalog.models.Catalog;
@@ -71,7 +68,7 @@ public class CatalogTask extends AsyncTask<Object, Void, Catalog> {
                 ICatalogSignature iCatalogSignature = retrofit.create(ICatalogSignature.class);
                 Call<Catalog> call = iCatalogSignature.getCatalog();
                 Response<Catalog> response = call.execute();
-                Log.e("LOG", "Retrofit Response: " + response.raw().toString());
+                Log.d("LOG", "Retrofit Response: " + response.raw().toString());
 
                 if (response.body() != null) {
                     catalog = response.body();

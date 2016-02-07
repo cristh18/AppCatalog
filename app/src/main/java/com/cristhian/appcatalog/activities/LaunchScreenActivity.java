@@ -59,7 +59,7 @@ public class LaunchScreenActivity extends AppCompatActivity implements ICatalogR
 
         if (savedInstanceState == null) {
             if (Utilies.validateCatalog(this)) {
-                Log.e(LOG_TAG, "Catalog exist!!!!!!!");
+                Log.d(LOG_TAG, "Catalog exist!!!!!!!");
                 executeService = false;
                 existCatalog = true;
                 getCatalog(url, executeService, existCatalog);
@@ -75,7 +75,7 @@ public class LaunchScreenActivity extends AppCompatActivity implements ICatalogR
      * @param url
      */
     private void getCatalog(String url, boolean executeService, boolean existCatalog) {
-        Log.e(LOG_TAG, "Call catalogTask!!!!!!!");
+        Log.d(LOG_TAG, "Call catalogTask!!!!!!!");
         CatalogTask catalogTask = new CatalogTask(this, this);
         catalogTask.execute(url, executeService, existCatalog);
     }
@@ -85,9 +85,9 @@ public class LaunchScreenActivity extends AppCompatActivity implements ICatalogR
     public void responseCatalog(Boolean response) {
         if (response) {
             goToMainActivity();
-            Toast.makeText(this, "Everything is OK", Toast.LENGTH_LONG);
+            Toast.makeText(this, getResources().getString(R.string.ok), Toast.LENGTH_LONG);
         } else {
-            Toast.makeText(this, "Something is wrong", Toast.LENGTH_LONG);
+            Toast.makeText(this, getResources().getString(R.string.fail), Toast.LENGTH_LONG);
         }
     }
 

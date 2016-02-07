@@ -47,7 +47,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
 
     @Override
     public void onBindViewHolder(final AppsViewHolder appsViewHolder, final int position) {
-        Log.e(LOG_TAG, "ENTER TO BINDVIEWHOLDER");
+        Log.d(LOG_TAG, "Enter to onBindViewHolder");
 
         final ApplicationData appData = appsData.get(position);
         String appImageURL = appData.getApplicationImage().getImagerUrl();

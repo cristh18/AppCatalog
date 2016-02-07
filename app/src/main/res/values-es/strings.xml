@@ -8,4 +8,6 @@
     <string name="action_settings">Configuración</string>
     <string name="action_dismiss">Cerrar</string>
     <string name="application_detail">Detalle de la aplicación</string>
+    <string name="ok">Acceso exitoso</string>
+    <string name="fail">No es posible ingresar a la aplicación</string>
 </resources>
