@@ -49,7 +49,11 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
         Log.e(LOG_TAG, "ENTER TO BINDVIEWHOLDER");
 
         final ApplicationData appData = appsData.get(position);
-
+        String appImageURL = appData.getApplicationImage().getImagerUrl();
+        String appTitle = appData.getApplicationTitle();
+        Context context = appsViewHolder.imageView.getContext();
+        Picasso.with(context).load(appImageURL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder_error).into(appsViewHolder.imageView);
+        appsViewHolder.textView.setText(appTitle);
 
         appsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,14 +61,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
                 mListener.onItemClicked(v, position, appData);
             }
         });
-
-
-        String appImageURL = appData.getApplicationImage().getImagerUrl();
-        String appTitle = appData.getApplicationTitle();
-        Context context = appsViewHolder.imageView.getContext();
-        Picasso.with(context).load(appImageURL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder_error).into(appsViewHolder.imageView);
-        appsViewHolder.textView.setText(appTitle);
-
     }
 
     @Override

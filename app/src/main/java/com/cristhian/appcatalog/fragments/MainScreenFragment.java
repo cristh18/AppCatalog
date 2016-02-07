@@ -72,8 +72,10 @@ public class MainScreenFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         appsData = new ArrayList<>();
+        Log.e(LOG_TAG, "Value appsData: " + appsData);
+        Log.e(LOG_TAG, "Value fragmentCategory: " + fragmentCategory);
         for (int j = 0; j < fragmentCategory.length; j++) {
-            Log.e(LOG_TAG, "Value fragmentDate: " + fragmentCategory[j]);
+            Log.e(LOG_TAG, "Value fragmentCategory j element: " + fragmentCategory[j]);
             int number = Integer.parseInt(fragmentCategory[j]) + 1;
             getAppInfo(getActivity(), String.valueOf(number));
         }
