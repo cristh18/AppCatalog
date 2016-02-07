@@ -71,8 +71,20 @@ public class MainScreenFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Log.e(LOG_TAG, "savedInstanceState: " + savedInstanceState);
+        Log.e(LOG_TAG, "fragmentCategory: " + fragmentCategory);
+        Log.e(LOG_TAG, "fragmentCategory first element: " + fragmentCategory[0]);
+
         appsData = new ArrayList<>();
         Log.e(LOG_TAG, "Value appsData: " + appsData);
+
+        if (fragmentCategory[0] == null) {
+            if (savedInstanceState != null) {
+                customListAdapter.clear();
+                setFragmentCategory(String.valueOf(savedInstanceState.getInt("Pager_Current")));
+            }
+        }
+
         Log.e(LOG_TAG, "Value fragmentCategory: " + fragmentCategory);
         for (int j = 0; j < fragmentCategory.length; j++) {
             Log.e(LOG_TAG, "Value fragmentCategory j element: " + fragmentCategory[j]);
@@ -80,9 +92,9 @@ public class MainScreenFragment extends Fragment {
             getAppInfo(getActivity(), String.valueOf(number));
         }
 
-        if (LaunchScreenActivity.IS_TABLET){
+        if (LaunchScreenActivity.IS_TABLET) {
             mStaggeredLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        }else {
+        } else {
             mStaggeredLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         }
 
@@ -134,36 +146,36 @@ public class MainScreenFragment extends Fragment {
 
     /*****/
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
-        this.menu = menu;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_toggle) {
-            Log.e(LOG_TAG, "CLICK MENU");
-            toggle();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void toggle() {
-        MenuItem item = menu.findItem(R.id.action_toggle);
-        if (isListView) {
-            //mStaggeredLayoutManager.setSpanCount(2);
-            item.setIcon(R.drawable.ic_action_list);
-            item.setTitle("Show as list");
-            isListView = false;
-        } else {
-            //mStaggeredLayoutManager.setSpanCount(1);
-            item.setIcon(R.drawable.ic_action_grid);
-            item.setTitle("Show as grid");
-            isListView = true;
-        }
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.main, menu);
+//        this.menu = menu;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_toggle) {
+//            Log.e(LOG_TAG, "CLICK MENU");
+//            toggle();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//
+//    private void toggle() {
+//        MenuItem item = menu.findItem(R.id.action_toggle);
+//        if (isListView) {
+//            //mStaggeredLayoutManager.setSpanCount(2);
+//            item.setIcon(R.drawable.ic_action_list);
+//            item.setTitle("Show as list");
+//            isListView = false;
+//        } else {
+//            //mStaggeredLayoutManager.setSpanCount(1);
+//            item.setIcon(R.drawable.ic_action_grid);
+//            item.setTitle("Show as grid");
+//            isListView = true;
+//        }
+//    }
 }

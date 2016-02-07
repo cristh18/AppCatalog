@@ -1,5 +1,6 @@
 package com.cristhian.appcatalog.fragments;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cristhian.appcatalog.activities.LaunchScreenActivity;
 import com.cristhian.appcatalog.activities.MainActivity;
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.adapters.PageAdapter;
@@ -30,6 +32,11 @@ public class PagerFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int numberCategories = categoryRepository.getCategories(getActivity()).size();
+        if (LaunchScreenActivity.IS_TABLET) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         NUM_PAGES = numberCategories;
         viewFragments = new MainScreenFragment[numberCategories];
     }
