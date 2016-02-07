@@ -19,13 +19,12 @@ import com.cristhian.appcatalog.service.AppProvider;
 import com.cristhian.appcatalog.network.CatalogTask;
 import com.cristhian.appcatalog.utils.Utilies;
 
+/**
+ * Created by ctolosa on 02/02/2016.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
-
-    private Toolbar toolbar;
-    private boolean isListView;
-    private Menu menu;
 
     private AlertDialog.Builder dialog;
     private PagerFragment pagerFragment;
@@ -38,29 +37,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setUpActionBar();
         goToMainScreen();
 
-//        if (Utilies.isTablet(this)) {
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        } else{
-//            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//        }
-
-
-//        if (savedInstanceState == null) {
-//            if (Utilies.validateCatalog(this)){
-//                Log.e(LOG_TAG, "Catalog exist!!!!!!!");
-//                goToMainScreen();
-//            }else {
-//                String url = getString(R.string.base_url);
-//                getCatalog(url);
-//            }
-//        }
-
-
-
+        if (LaunchScreenActivity.IS_TABLET) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
         showExitDialog();
     }
@@ -75,50 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-
-    private void setUpActionBar() {
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        this.menu = menu;
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_toggle) {
-            Log.e(LOG_TAG, "CLICK MENU");
-            toggle();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void toggle() {
-        MenuItem item = menu.findItem(R.id.action_toggle);
-        if (isListView) {
-            //mStaggeredLayoutManager.setSpanCount(2);
-            item.setIcon(R.drawable.ic_action_list);
-            item.setTitle("Show as list");
-            isListView = false;
-        } else {
-            //mStaggeredLayoutManager.setSpanCount(1);
-            item.setIcon(R.drawable.ic_action_grid);
-            item.setTitle("Show as grid");
-            isListView = true;
-        }
-    }
-
 
     /**
      *
