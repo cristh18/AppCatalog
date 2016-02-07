@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.models.ApplicationData;
+import com.cristhian.appcatalog.utils.Utilies;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -26,7 +27,7 @@ public class DetailAppFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_app_detail, container, false);
-        getDialog().setTitle(applicationData.getApplicationTitle());
+        getDialog().setTitle(Utilies.getShortAppName(applicationData.getApplicationTitle()));
 
         imageViewApp = (ImageView) rootView.findViewById(R.id.appImageDetail);
         textViewTitle = (TextView) rootView.findViewById(R.id.appTitle);

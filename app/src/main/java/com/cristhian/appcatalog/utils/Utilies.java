@@ -49,6 +49,13 @@ public class Utilies {
         return categoryName;
     }
 
+    public static String getShortAppName(String largeAppName){
+        String shortAppName = "";
+        String[] appName = largeAppName.split("-");
+        shortAppName = appName[0];
+        return shortAppName;
+    }
+
     /**
      * @param context
      * @return

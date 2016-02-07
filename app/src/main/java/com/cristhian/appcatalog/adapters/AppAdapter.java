@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.cristhian.appcatalog.R;
 import com.cristhian.appcatalog.interfaces.ItemClickListener;
 import com.cristhian.appcatalog.models.ApplicationData;
+import com.cristhian.appcatalog.utils.Utilies;
 import com.cristhian.appcatalog.views.AppsViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -50,10 +51,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
 
         final ApplicationData appData = appsData.get(position);
         String appImageURL = appData.getApplicationImage().getImagerUrl();
-        String appTitle = appData.getApplicationTitle();
+        String appName = Utilies.getShortAppName(appData.getApplicationName());
         Context context = appsViewHolder.imageView.getContext();
         Picasso.with(context).load(appImageURL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder_error).into(appsViewHolder.imageView);
-        appsViewHolder.textView.setText(appTitle);
+        appsViewHolder.textView.setText(appName);
 
         appsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
