@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
-
-        showExitDialog();
     }
 
     /**
@@ -54,24 +52,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *
-     */
-    private void showExitDialog() {
-        dialog = new AlertDialog.Builder(this);
-        dialog.setTitle(getResources().getString(R.string.app_name));
-        dialog.setMessage(getResources().getString(R.string.exit_app_msg));
-        dialog.setCancelable(false);
-        dialog.setPositiveButton(getResources().getString(R.string.yes_option), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogo1, int id) {
-                finish();
-            }
-        });
-        dialog.setNegativeButton(getResources().getString(R.string.no_option), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int id) {
-                dialogInterface.dismiss();
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.exit_app_msg))
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes_option, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton(R.string.no_option, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
