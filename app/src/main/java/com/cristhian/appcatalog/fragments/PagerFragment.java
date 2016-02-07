@@ -51,6 +51,7 @@ public class PagerFragment extends Fragment {
         pagerTabStrip.setDrawFullUnderline(true);
         pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorAccent));
         pagerTabStrip.setBackgroundColor(getResources().getColor(R.color.blue09));
+        pagerTabStrip.setTextColor(getResources().getColor(R.color.white01));
 
         mPagerAdapter = new PageAdapter(getChildFragmentManager(), getActivity());
         for (int i = 0; i < NUM_PAGES; i++) {
