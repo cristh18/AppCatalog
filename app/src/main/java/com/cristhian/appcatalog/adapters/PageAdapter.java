@@ -59,7 +59,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         CategoryRepository categoryRepository = CategoryRepository.getCateRepoInstance();
         List<CategoryAttribute> categories = categoryRepository.getCategories(context);
         for (CategoryAttribute c : categories) {
-            if (category == Integer.parseInt(c.getImId())) {
+            if ((category+1) == Integer.parseInt(c.getImId())) {
                 categoryName = c.getLabel();
                 break;
             }

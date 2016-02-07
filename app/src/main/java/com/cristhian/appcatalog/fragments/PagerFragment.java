@@ -48,7 +48,7 @@ public class PagerFragment extends Fragment {
         mPagerAdapter = new PageAdapter(getChildFragmentManager(), getActivity());
         for (int i = 0; i < NUM_PAGES; i++) {
             viewFragments[i] = new MainScreenFragment();
-            viewFragments[i].setFragmentCategory(String.valueOf(i-1));
+            viewFragments[i].setFragmentCategory(String.valueOf(i));
         }
         mPagerHandler.setAdapter(mPagerAdapter);
         mPagerHandler.setCurrentItem(MainActivity.current_fragment);
