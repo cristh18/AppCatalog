@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by Cristhian on 2/4/2016.
  */
-public class DetailAppFragment extends DialogFragment{
+public class DetailAppFragment extends DialogFragment {
 
     ImageView imageViewApp;
     TextView textViewTitle;
@@ -28,10 +28,10 @@ public class DetailAppFragment extends DialogFragment{
         View rootView = inflater.inflate(R.layout.fragment_app_detail, container, false);
         getDialog().setTitle(getResources().getString(R.string.application_detail));
 
-        imageViewApp = (ImageView)rootView.findViewById(R.id.appImageDetail);
-        textViewTitle = (TextView)rootView.findViewById(R.id.appTitle);
-        textViewSummary = (TextView)rootView.findViewById(R.id.appSummary);
-        Picasso.with(getActivity()).load(applicationData.getApplicationImage().getImagerUrl()).noFade().into(imageViewApp);
+        imageViewApp = (ImageView) rootView.findViewById(R.id.appImageDetail);
+        textViewTitle = (TextView) rootView.findViewById(R.id.appTitle);
+        textViewSummary = (TextView) rootView.findViewById(R.id.appSummary);
+        Picasso.with(getActivity()).load(applicationData.getApplicationImage().getImagerUrl()).placeholder(R.drawable.placeholder).error(R.drawable.placeholder_error).into(imageViewApp);
         textViewTitle.setText(applicationData.getApplicationTitle());
         textViewSummary.setText(applicationData.getApplicationSummary());
 

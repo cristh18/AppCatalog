@@ -62,7 +62,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppsViewHolder> {
         String appImageURL = appData.getApplicationImage().getImagerUrl();
         String appTitle = appData.getApplicationTitle();
         Context context = appsViewHolder.imageView.getContext();
-        Picasso.with(context).load(appImageURL).noFade().into(appsViewHolder.imageView);
+        Picasso.with(context).load(appImageURL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder_error).into(appsViewHolder.imageView);
         appsViewHolder.textView.setText(appTitle);
 
     }
