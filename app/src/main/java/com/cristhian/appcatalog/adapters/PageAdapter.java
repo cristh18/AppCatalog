@@ -6,10 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.cristhian.appcatalog.fragments.PagerFragment;
-import com.cristhian.appcatalog.models.CategoryAttribute;
-import com.cristhian.appcatalog.repository.CategoryRepository;
-
-import java.util.List;
+import com.cristhian.appcatalog.utils.Utilies;
 
 /**
  * Created by ctolosa on 02/02/2016.
@@ -48,22 +45,11 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
         for (int i = 0; i < PagerFragment.viewFragments.length; i++) {
             if (i == category) {
-                return searchCategoryName(category);
+                return Utilies.searchCategoryName(context, category);
             }
         }
         return null;
     }
 
-    private String searchCategoryName(int category) {
-        String categoryName = "";
-        CategoryRepository categoryRepository = CategoryRepository.getCateRepoInstance();
-        List<CategoryAttribute> categories = categoryRepository.getCategories(context);
-        for (CategoryAttribute c : categories) {
-            if ((category+1) == Integer.parseInt(c.getImId())) {
-                categoryName = c.getLabel();
-                break;
-            }
-        }
-        return categoryName;
-    }
+
 }
